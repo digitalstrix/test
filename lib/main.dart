@@ -1,3 +1,5 @@
+import 'package:app/app_screen/form.dart';
+import 'package:app/app_screen/pages.dart';
 import 'package:app/app_screen/table_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -11,41 +13,37 @@ class HomeScreen extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Strix Test",
-      home: SimpleForm(),
+      home: BottomMenu(),
     );
   }
 }
 
-class SimpleForm extends StatefulWidget {
+class BottomMenu extends StatefulWidget {
+  const BottomMenu({super.key});
   @override
-  State<StatefulWidget> createState() {
-    return _SimpleFormState();
-  }
+  State<BottomMenu> createState() => _BottomMenuState();
 }
 
-class _SimpleFormState extends State<SimpleForm> {
-  String name = "";
+class _BottomMenuState extends State<BottomMenu> {
+  int _selectedItem = 0;
+  var _pagesdata = [HomePage(), UserPage(), SettingPage()];
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      appBar: AppBar(title: Text("Strix Test")),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            TextField(
-              onSubmitted: (String username) {
-                setState(() {
-                  name = username;
-                });
-              },
-            ),
-            Text(
-              "Name is $name",
-              textDirection: TextDirection.ltr,
-            )
-          ],
-        ),
+      appBar: AppBar(title: Text('Strix Digital')),
+      body: Center(child: _pagesdata[_selectedItem]),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
+        ],
+        currentIndex: _selectedItem,
+        onTap: (setValue) {
+          setState(() {
+            _selectedItem = setValue;
+          });
+        },
       ),
     );
   }
